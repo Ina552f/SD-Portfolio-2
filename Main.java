@@ -83,6 +83,8 @@ public class Main {
         MyGraph.addEdge(l,o,15);
         MyGraph.addEdge(l,p,58);
         MyGraph.addEdge(n,o,14);
-        MyGraph.PrintGraph();
+        MyGraph.PrintGraph();   // This will be redone later to a comment and another line of code will be set in
+                                // so the result of the AdjacencyGraph.java can be seen. I have tried a few different 
+                                // things, but haven't found the correct answer yet.
     }
 }
