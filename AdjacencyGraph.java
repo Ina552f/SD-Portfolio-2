@@ -6,16 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AdjacencyGraph {
-    private static int length;
-    private static OptionalDataException AdjacencyGraph;
     ArrayList<Vertex> vertices;
 
     public AdjacencyGraph(){
         vertices=new ArrayList<Vertex>();
-    }
-
-    public static void setLength(int length) {
-        AdjacencyGraph.length = length;
     }
 
     public void addVertex(Vertex v){
@@ -32,13 +26,13 @@ public class AdjacencyGraph {
     }
     public void MSTPrims()  {
         //Setup for the algorithm
-        int[] Distance =new int[AdjacencyGraph.length];
-        int[] Predecessor = new int[AdjacencyGraph.length];
-        MinHeap<Pair> Q = new MinHeap<>();
-        ArrayList<Pair> VertexPairs=new ArrayList<>();
-        Arrays.fill(Distance,Integer.MAX_VALUE);
-        Arrays.fill(Predecessor, -1);        // Sets it up so the program won't think under -1 is null (important detail)
-        if(AdjacencyGraph.length>0)              //0 is the root chosen
+        int[] Distance =new int[AdjacencyGraph.length]; //slet
+        int[] Predecessor = new int[AdjacencyGraph.length]; //slet
+        MinHeap<Pair> Q = new MinHeap<>(); // Vil ikke have pair (find ud af hvad istedet)
+        ArrayList<Pair> VertexPairs=new ArrayList<>(); //måske slet, og lav egen pair frq (31 minheap)
+        Arrays.fill(Distance,Integer.MAX_VALUE); //slet
+        Arrays.fill(Predecessor, -1);        //slet
+        if(AdjacencyGraph.length>0)          // i list bruger man size ikke length (datastructure)    
             Distance[0]=0;
         for(int i=0;i<AdjacencyGraph.length;i++)
             VertexPairs.add(new Pair(Distance[i],i));
@@ -83,7 +77,8 @@ public class AdjacencyGraph {
 class Vertex implements Comparable<Vertex>{
     String name;
     ArrayList<Edge> OutEdges;
-    Integer dist= Integer.MAX_VALUE;
+    Integer dist= Integer.MAX_VALUE; 
+    // tilføj en prev der er null
     public Vertex(String id){
         name=id;
         OutEdges=new ArrayList<Edge>();
