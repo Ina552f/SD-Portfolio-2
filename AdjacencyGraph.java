@@ -1,5 +1,4 @@
 // Code originally created by Line Reinhardt.
-// I am trying to get the code converted so it can be used with the adjacency list and made my own or used as an example.
 
 import java.io.OptionalDataException;
 import java.util.ArrayList;
@@ -76,20 +75,31 @@ public class AdjacencyGraph {
 
 class Vertex implements Comparable<Vertex>{
     String name;
-    ArrayList<Edge> OutEdges;
-    Integer dist= Integer.MAX_VALUE; 
-    // tilføj en prev der er null
-    public Vertex(String id){
-        name=id;
-        OutEdges=new ArrayList<Edge>();
+    
+    public ArrayList<Edge> getOutEdges() {
+        return OutEdges;
     }
-    public void addOutEdge(Edge e) {
-        OutEdges.add(e);
+    
+    ArrayList<Edge> OutEdges;
+    Integer distance = Integer.MAX_VALUE;
+    Vertex PrevVertex = null;
+    boolean TreeIndex = false;
+    
+    public String GetName() {
+        return Name;
+    }
+    
+    public Vertex(String cities){
+        name=cities;
+        OutEdges=new ArrayList<>();
+    }
+    public void addOutEdge(Edge OutEdge) {
+        OutEdges.add(OutEdge);
     }
 
     @Override
     public int compareTo(Vertex o) {
-        return this.dist.compareTo(o.dist);
+        return this.dist.compareTo(o.distance);
     }
 }
 
