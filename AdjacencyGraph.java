@@ -113,6 +113,13 @@ class Edge{
         this.weight=cost;
         this.from.addOutEdge(this);
     }
+    public Vertex getToVertex(){
+        return to;
+    }
+    
+    public Integer getWeight(){
+        return weight;
+    }
 }
 
 // This class ties the distance with index so they can be compared
