@@ -1,11 +1,15 @@
 // Code originally created by Line Reinhardt.
 
+import java.text.DecimalFormat;
 import java.io.OptionalDataException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 public class AdjacencyGraph {
-    ArrayList<Vertex> vertices;
+    public ArrayList<Vertex> vertices;
+        int Counter = 0;
+        double MSTLenght = 0;
 
     public AdjacencyGraph(){
         vertices=new ArrayList<Vertex>();
@@ -14,7 +18,7 @@ public class AdjacencyGraph {
     public void addVertex(Vertex v){
         vertices.add(v);
     }
-    public void addEdge(Vertex f,Vertex t, Integer w){          // from,to,weight
+    public void addEdge(Vertex f,Vertex t, Integer distance){          // from,to,weight
         if(!(vertices.contains(f) && vertices.contains(t)) ) {
             System.out.println("Vertex not in graph");
             return;
@@ -23,52 +27,71 @@ public class AdjacencyGraph {
         Edge Edge=new Edge(f,t,w);
         Edge Edge1=new Edge(t,f,w);
     }
-    public void MSTPrims()  {
-        //Setup for the algorithm
-        int[] Distance =new int[AdjacencyGraph.length]; //slet
-        int[] Predecessor = new int[AdjacencyGraph.length]; //slet
-        MinHeap<Pair> Q = new MinHeap<>(); // Vil ikke have pair (find ud af hvad istedet)
-        ArrayList<Pair> VertexPairs=new ArrayList<>(); //måske slet, og lav egen pair frq (31 minheap)
-        Arrays.fill(Distance,Integer.MAX_VALUE); //slet
-        Arrays.fill(Predecessor, -1);        //slet
-        if(AdjacencyGraph.length>0)          // i list bruger man size ikke length (datastructure)    
-            Distance[0]=0;
-        for(int i=0;i<AdjacencyGraph.length;i++)
-            VertexPairs.add(new Pair(Distance[i],i));
-        int i = 0;
-        Q.Insert(VertexPairs.get(i));
-
-        // The algorithm
-        int MST=0;
-        while(!Q.isEmpty()) {
-            Pair minVertexPair=Q.extractMin();
-            for(int i=0;i<AdjacencyGraph.length;i++){
-                if(AdjacencyGraph[minVertexPair.index][i]==1 && AdjacencyGraph[minVertexPair.index][i]<Distance[i])
-                {
-                        Distance[i] = AdjacencyGraph[minVertexPair.index][i];
-                        Predecessor[i]=minVertexPair.index;
-                        int pos = Q.getPosition(VertexPairs.get(i));
-                        VertexPairs.get(i).distance=AdjacencyGraph[minVertexPair.index][i];
-                        Q.decreasekey(pos);
-
+    public void MST()  {
+        PriorityQueue<Vertex> Q = new PriorityQueue<>();
+            if (vertices.size() > 0) {
+                vertices.get(0).Distance = 0;
+                Q.offer(vertices.get(0));
+            }
+        
+        while(!Q.isEmpty() && Counter < vertices.size()) {
+            Vertex SmallestCost = Q.poll();
+            ArrayList<Edge> OutEdgeOfU = SmallestCost.getOutEdges();
+                
+                if(!SmallestCost.TreeIndex) {
+                    for(Edge edge : OutEdgeOfU) {
+                        if (edge.getWeight() < edge.getToVertex().Distance && !edge.getToVertex().IsInTree){
+                            edge.getToVertex().Distance       = edge.getWeight();
+                            edge.getToVertex().PreviousVertex = SmallestCost;
+                            Q.offer(edge.ToVertex);
+                        }
+                    }
+                    SmallestCost.IsInTree = true;
+                    MSTLength += SmallestCost.Distance;
+                    Counter++;
                 }
+                System.out.println(" ");
+             }
+            public void PrintMST() {
+            for (Vertex vertex : vertices) {
+                System.out.print(vertex.getName());
+
+                if (vertex.PreviousVertex != null)
+                    System.out.print(" coming from  " + vertex.PreviousVertex.getName()
+                                      + " The cost " + vertex.Distance);
+                else{
+
+                    System.out.println("Vertex " + vertex.getName() + " Has no parent ");
+                }
+                System.out.println("  ");
             }
-            MST+=Distance[minVertexPair.index];
-        }
-        System.out.println("Minimum spanning tree distance: " +MST);
-            for(i;i<AdjacencyGraph.length;i++)
-            {
-                System.out.println(" parent "+ Predecessor[i] + " to " + i +" EdgeWeight: "+ Distance[i]);
-            }
+
+            System.out.println("The total distance for network grid is: " + MSTLength + " KM");
+            System.out.println("  ");
+
+            System.out.println("The total cost for the network grid is:  " +
+                    new DecimalFormat("### ### ###").format(MSTLength * 100000) + "kroner");
+        }    
     }
-    public  void PrintGraph(){
-        for (Vertex vertex : vertices) {
-            System.out.println(" From: " + vertex.name);
-            for (int j = 0; j < vertex.OutEdges.size(); j++) {
-                Edge currentEdge = vertex.OutEdges.get(j);
-                System.out.println(" To: " + currentEdge.to.name + " km: " + currentEdge.weight);
+    
+    public  void PrintMST(){
+         for (Vertex vertex : vertices) {
+                System.out.print(vertex.getName());
+
+                if (vertex.PreviousVertex != null)
+                    System.out.print(" Coming from  " + vertex.PreviousVertex.getName()
+                                      + " The cost " + vertex.Distance);
+                else{
+
+                    System.out.println("Vertex " + vertex.getName() + " Has no parent ");
+                }
+                System.out.println("  ");
             }
-            System.out.println(" ");
+            System.out.println("The total distance for network grid is: " + MSTLength + " KM");
+
+            System.out.println("  ");
+            System.out.println(" The total cost for the network grid is:  " +
+                    new DecimalFormat("### ### ###").format(MSTLength * 100000) + "kroner");
         }
     }
 }
