@@ -89,6 +89,6 @@ public class Main {
         MyGraph.addEdge(l,o,15);
         MyGraph.addEdge(l,p,58);
         MyGraph.addEdge(n,o,14);
-      Return Cities;
+      return Cities;
     }
 }
