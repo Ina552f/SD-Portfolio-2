@@ -1,6 +1,12 @@
 public class Main {
-    public static void main(String[] args) {
-        AdjacencyGraph MyGraph=new AdjacencyGraph();
+    public static void main(String[] args){
+        AdjacencyList MyGraph = new AdjacencyList();
+        AddVerticeAndEdge(MyGraph);
+        MyGraph.PrintEdges();
+        MyGraph.MST();
+        MyGraph.PrintMST();
+    }
+    Public static AdjacencyList AddVerticeAndEdge(AdjacencyList Cities) {
         Vertex a = new Vertex("Eskildstrup");
         Vertex b = new Vertex("Haslev");
         Vertex c = new Vertex("Holbæk");
@@ -83,8 +89,6 @@ public class Main {
         MyGraph.addEdge(l,o,15);
         MyGraph.addEdge(l,p,58);
         MyGraph.addEdge(n,o,14);
-        MyGraph.PrintGraph();   // This will be redone later to a comment and another line of code will be set in
-                                // so the result of the AdjacencyGraph.java can be seen. I have tried a few different 
-                                // things, but haven't found the correct answer yet.
+      Return Cities;
     }
 }
