@@ -73,8 +73,8 @@ public class AdjacencyGraph {
 class Vertex implements Comparable<Vertex>{
     String name;
     ArrayList<Edge> OutEdges;
-    Integer dist= Integer.MAX_VALUE; 
-    // tilføj en prev der er null
+    Integer dist= Integer.MAX_VALUE;
+    Vertex prev = null;                     // Added null
     public Vertex(String id){
         name=id;
         OutEdges=new ArrayList<Edge>();
