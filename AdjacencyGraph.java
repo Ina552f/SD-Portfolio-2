@@ -27,15 +27,10 @@ public class AdjacencyGraph {
     }
     public void MSTPrims()  {
         //Setup for the algorithm
-        int[] Distance =new int[AdjacencyGraph.length]; //slet
-        int[] Predecessor = new int[AdjacencyGraph.length]; //slet
         MinHeap<Vertex> Q = new MinHeap<>();                          // Adjacency doesn't want pair, but do not know what is supposed to be instead. fordi vertex indeholder det hele.
-        ArrayList<Vertex> VertexPairs=new ArrayList<>();              // Not sure if this should be deleted in connection with making my own pair in MinHeap.java (line 31)
         if(vertices.size()>0)    
-            vertices.get(0).distance=0;         // sætter roden til 0
+            vertices.get(0).distance=0;         
         for(int i=0;i<vertices.size;i++) {
-            VertexPairs.add(new Pair(Distance[i],i));               // slet
-        int i = 0;                                                  // slet
             Q.Insert(vertices.get(i));
             }
         // The algorithm
@@ -75,7 +70,7 @@ class Vertex implements Comparable<Vertex>{
     String name;
     ArrayList<Edge> OutEdges;
     Integer dist= Integer.MAX_VALUE;
-    Vertex prev = null;                     // Added null
+    Vertex prev = null;                     
     public Vertex(String id){
         name=id;
         OutEdges=new ArrayList<Edge>();
