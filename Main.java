@@ -82,5 +82,7 @@ public class Main {
         MyGraph.addEdge(l,p,58);
         MyGraph.addEdge(n,o,14);
         MyGraph.PrintGraph();
+
+        MyGraph.MSTPrims();
     }
 }
