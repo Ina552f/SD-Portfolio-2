@@ -1,10 +1,12 @@
 // Code originally created by Line Reinhardt.
-// In this code I'm trying to convert from an adjacency matrix to adjacency list. 
+// In this code I'm trying to convert from an adjacency matrix to adjacency list.
 // - Kristina Rasmussen (68909)
 
 import java.io.OptionalDataException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AdjacencyGraph {
     ArrayList<Vertex> vertices;
@@ -27,33 +29,37 @@ public class AdjacencyGraph {
     }
     public void MSTPrims()  {
         //Setup for the algorithm
+//        int[] Distance =new int[AdjacencyGraph.length]; //slet
+//        int[] Predecessor = new int[AdjacencyGraph.length]; //slet
         MinHeap<Vertex> Q = new MinHeap<>();                          // Adjacency doesn't want pair, but do not know what is supposed to be instead. fordi vertex indeholder det hele.
-        if(vertices.size()>0)    
-            vertices.get(0).distance=0;         
-        for(int i=0;i<vertices.size;i++) {
+        ArrayList<Vertex> VertexInMST = new ArrayList<>();              // vertices included in MST
+        if(vertices.size()>0)
+            vertices.get(0).distance=0;         // sætter roden til 0
+        for(int i=0;i<vertices.size();i++) {
             Q.Insert(vertices.get(i));
-            }
+        }
+
         // The algorithm
-        int MST=0;
+        int MST = 0;
         while(!Q.isEmpty()) {
-            Pair minVertexPair=Q.extractMin();
-            for(int i=0;i<AdjacencyGraph.length;i++){
-                if(AdjacencyGraph[minVertexPair.index][i]==1 && AdjacencyGraph[minVertexPair.index][i]<Distance[i])
+            Vertex minVertex = Q.extractMin();
+            VertexInMST.add(minVertex);
+            MST += minVertex.distance;
+            for (Edge outEdge: minVertex.OutEdges) {
+                if(!VertexInMST.contains(outEdge.to)  && outEdge.weight < outEdge.to.distance)
                 {
-                        Distance[i] = AdjacencyGraph[minVertexPair.index][i];
-                        Predecessor[i]=minVertexPair.index;
-                        int pos = Q.getPosition(VertexPairs.get(i));
-                        VertexPairs.get(i).distance=AdjacencyGraph[minVertexPair.index][i];
-                        Q.decreasekey(pos);
+                    outEdge.to.distance = outEdge.weight;
+                    outEdge.to.prev = minVertex;
+                    int pos = Q.getPosition(outEdge.to);
+                    Q.decreasekey(pos);
                 }
             }
-            MST+=Distance[minVertexPair.index];
         }
         System.out.println("Minimum spanning tree distance: " +MST);
-            for(i;i<AdjacencyGraph.length;i++)
-            {
-                System.out.println(" parent "+ Predecessor[i] + " to " + i +" EdgeWeight: "+ Distance[i]);
-            }
+        for(int i = 1; i< VertexInMST.size(); i++)
+        {
+            System.out.println(" parent "+ VertexInMST.get(i).prev.name + " to " + VertexInMST.get(i).name +" EdgeWeight: "+ VertexInMST.get(i).distance);
+        }
     }
     public  void PrintGraph(){
         for (Vertex vertex : vertices) {
@@ -69,8 +75,8 @@ public class AdjacencyGraph {
 class Vertex implements Comparable<Vertex>{
     String name;
     ArrayList<Edge> OutEdges;
-    Integer dist= Integer.MAX_VALUE;
-    Vertex prev = null;                     
+    Integer distance = Integer.MAX_VALUE;
+    Vertex prev = null;                     // Added null
     public Vertex(String id){
         name=id;
         OutEdges=new ArrayList<Edge>();
@@ -80,7 +86,7 @@ class Vertex implements Comparable<Vertex>{
     }
     @Override
     public int compareTo(Vertex o) {
-        return this.dist.compareTo(o.dist);
+        return this.distance.compareTo(o.distance);
     }
 }
 class Edge{
@@ -96,12 +102,12 @@ class Edge{
 }
 // This class ties the distance with index so they can be compared
 class Pair implements Comparable<Pair> {
-   Integer distance;
-   Integer index;
-   public Pair(Integer distance, Integer index) {
-       this.distance=distance;
-       this.index=index;
-   }
+    Integer distance;
+    Integer index;
+    public Pair(Integer distance, Integer index) {
+        this.distance=distance;
+        this.index=index;
+    }
     @Override
     public int compareTo(Pair p) {
         return this.distance.compareTo(p.distance);
